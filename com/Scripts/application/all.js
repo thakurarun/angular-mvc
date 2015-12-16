@@ -1,27 +1,53 @@
+'use strict'
+var app = angular.module('com', ['ngRoute']);
+
+app.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.
+      when('/', {
+          templateUrl: GetRoot() +  'Areas/Index/partials',
+          controller: 'GreetingController'
+      }).
+      when('/phones/:phoneId', {
+          templateUrl: 'partials/phone-detail.html',
+          controller: 'PhoneDetailCtrl'
+      }).
+      otherwise({
+          redirectTo: '/phones'
+      });
+}]);
+
 var GetRoot = function () {
   var rootPath = "./Client/";
   return function GetRootPath() {
     return rootPath;
   }
 }();
-console.log('controller'); 
-var app = angular.module('com', []);
+ 
+app.controller('GreetingController', ['$scope', function ($scope) {
+    $scope.greeting = 'wallah!';
+}]);
 app.directive('textArea', function () {
-    var minMessage = ' more to go...';
-    var maxMessage = ' characters left';
-    var defaultMessage = '';
+    var minMessage = '{0} more to go...';
+    var maxMessage = '{0} characters left.';
+    var defaultMessage = 'enter at least {0} characters';;
     function link(scope, element, attrs) {
-        var defaultMessage = 'enter at least ' + scope.min + ' characters';
-        scope.message = defaultMessage;
-        element.on('keyup', function (e) {
-            var text = $.trim(e.target.value);
+        scope.message = defaultMessage.format(scope.min);
+        var btn = element.find('a[role=button]');
+        element.on('keyup', btn, function (e) {
+            var len = $.trim(e.target.value).length;
             var msg = '';
-            if (text.length == 0) {
-                msg = defaultMessage;
-            } else if (text.length >= scope.min) {
-                msg = maxMessage;
-            } else if (text.length < scope.min) {
-                msg  = minMessage;
+            var left = 0;
+            if (len == 0) {
+                msg = defaultMessage.format(scope.min);
+                btn.hasClass('disabled') ? '' : btn.addClass('disabled');
+            } else if (len >= scope.min) {
+                left = scope.max - len;
+                msg = maxMessage.format(left);
+                btn.hasClass('disabled') ? btn.removeClass('disabled') : '';
+            } else if (len < scope.min) {
+                left = scope.min - len;
+                msg = minMessage.format(left);
+                btn.hasClass('disabled') ? '' : btn.addClass('disabled');
             }
             scope.$apply(function () {
                 scope.message = msg;
@@ -34,8 +60,22 @@ app.directive('textArea', function () {
             max: '@',
             min: '@',
             message: '@',
+            buttonText: '@'
         },
         templateUrl: GetRoot() + 'CustomControls/TextAreaControl/templateTextArea.html',
         link: link
     };
 });
+
+// First, checks if it isn't implemented yet.
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+              ? args[number]
+              : match
+            ;
+        });
+    };
+}

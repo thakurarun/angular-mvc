@@ -106,9 +106,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\Areas\Index\controller.js" />
+    <Content Include="Client\Areas\Index\indexController.js" />
+    <Content Include="Client\Areas\Index\partials\greeting.html" />
     <Content Include="Client\CustomControls\TextAreaControl\directiveTextArea.js" />
     <Content Include="Client\CustomControls\TextAreaControl\templateTextArea.html" />
+    <Content Include="Client\Utilities\plugins.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -117,6 +119,9 @@
     <Content Include="PreBuildTask\compress.js" />
     <Content Include="PreBuildTask\ReadScripts.js" />
     <Content Include="PreBuildTask\gulpfile.js" />
+    <Content Include="Scripts\angular\angular-animate.js" />
+    <Content Include="Scripts\angular\angular-cookies.js" />
+    <Content Include="Scripts\angular\angular-route.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\bootstrap.js" />
     <Content Include="Scripts\angular\jquery-1.10.2.js" />
@@ -153,9 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Client\Areas\Index\partials\" />
     <Folder Include="Client\Services\" />
-    <Folder Include="Client\Utilities\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
@@ -190,6 +193,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>CD $(ProjectDir)PreBuildTask\
+gulp</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

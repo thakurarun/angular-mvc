@@ -18,6 +18,9 @@ namespace com
             var angularScriptBundle = new ScriptBundle("~/bundles/angular").Include(
                          "~/Scripts/angular/angular.js"
                          , "~/Scripts/angular/bootstrap.js"
+                         , "~/Scripts/angular/angular-animate.js"
+                         , "~/Scripts/angular/angular-cookies.js"
+                         , "~/Scripts/angular/angular-route.js"
                          );
 
             var applicationScriptBundle = new ScriptBundle("~/bundles/application").Include(
