@@ -1,0 +1,17 @@
+{
+  "name": "prebuildtasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-concat": "2.6.0",
+    "gulp-uglify": "1.5.1"
+  },
+
+  "author": "",
+  "license": "ISC"
+}
