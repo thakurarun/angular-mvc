@@ -117,6 +117,9 @@
     <Content Include="Client\CustomControls\TextAreaControl\directiveTextArea.js" />
     <Content Include="Client\CustomControls\TextAreaControl\templateTextArea.html" />
     <None Include="Client\indexPage.cshtml" />
+    <Content Include="Client\CustomControls\TextBoxControl\directiveTextBox.js" />
+    <Content Include="Client\CustomControls\TextBoxControl\templateTextBox.html" />
+    <Content Include="Client\Directives\compareTo.js" />
     <Content Include="Client\Utilities\plugins.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

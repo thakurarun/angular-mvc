@@ -1,31 +1,46 @@
 ﻿<div ng-controller="signupController" class="col-md-6 col-md-offset-3">
     <form ng-submit="userForm.$valid && submitForm()" name="userForm" novalidate ng-class="{ 'has-error': userForm.userForm.$touched && userForm.userForm.$invalid }">
-        <!--MESSAGES -->
-        <div class="help-block" ng-messages="userForm.username.$error" ng-show="userForm.username.$touched">
-            <div ng-message="required">Please enter valid username</div>
-        </div>
         <div class="form-group">
             <label>Name</label>
-            <input type="text" name="name" class="form-control" placeholder="Bruce Wayne" ng-model="model.name" required ng-minlength="5" ng-maxlength="20">
-            <span class="help-block"></span>
+            <input type="text"
+                   name="name" class="form-control" placeholder="Bruce Wayne" ng-model="model.name" required ng-minlength="5" ng-maxlength="20" />
+            <span class="help-block" ng-messages="userForm.name.$error" ng-show="userForm.name.$touched">
+                <span ng-message="required">Please enter name</span>
+                <span ng-message="minlength">mininum 5 characters are required</span>
+                <span ng-message="maxlength">maximum 20 characters accepted</span>
+            </span>
         </div>
-        <div class="form-group"  ng-class="{ 'has-error': userForm.name.$touched && userForm.name.$invalid }">
+        <div class="form-group">
             <label>Username</label>
             <input type="text" name="username" class="form-control" placeholder="bruce14" ng-model="model.username" required ng-minlength="5" ng-maxlength="20">
-            <span class="help-block"></span>
+            <span class="help-block" ng-messages="userForm.username.$error" ng-show="userForm.username.$touched">
+                <span ng-message="required">Please enter valid username</span>
+                <span ng-message="minlength">mininum 5 characters are required</span>
+                <span ng-message="maxlength">maximum 20 characters accepted</span>
+            </span>
         </div>
         <div class="form-group">
             <label>Password</label>
             <input type="password" name="password" class="form-control" placeholder="*********" ng-model="model.password" required ng-minlength="5" ng-maxlength="20">
-            <span class="help-block"></span>
+            <span class="help-block" ng-messages="userForm.password.$error" ng-show="userForm.password.$touched">
+                <span ng-message="required">Please enter valid password</span>
+                <span ng-message="minlength">mininum 5 characters are required</span>
+                <span ng-message="maxlength">maximum 20 characters accepted</span>
+            </span>
         </div>
         <div class="form-group">
             <label>Confirm Password</label>
-            <input type="password" name="confirmPassword" class="form-control" placeholder="*********" ng-model="model.confirmPassword" required ng-minlength="5" ng-maxlength="20">
-            <span class="help-block"></span>
+            <input type="password" name="confirmPassword" class="form-control" placeholder="*********" ng-model="model.confirmPassword"
+                    required ng-minlength="5" ng-maxlength="20"  compare-to="userForm.password">
+            <span class="help-block" ng-messages="userForm.confirmPassword.$error" ng-show="userForm.confirmPassword.$touched">
+                <span ng-message="required">Please enter valid password</span>
+                <span ng-message="compareTo">Password doesn't match</span>
+                <span ng-message="minlength">mininum 5 characters are required</span>
+                <span ng-message="maxlength">maximum 20 characters accepted</span>
+            </span>
         </div>
         <!-- SUBMIT BUTTON -->
-        <button type="submit" class="btn btn-success btn-lg btn-block">Submit!</button>
-       
+        <button type="submit" class="btn btn-success btn-lg btn-block"  ng-disabled="!userForm.$valid">Submit!</button>
+
     </form>
 </div>
