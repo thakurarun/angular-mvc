@@ -21,8 +21,15 @@ app.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 
-app.controller('greetingController', ['$scope', function ($scope) {
-    $scope.greeting = 'Welcome please login/signup!';
+app.controller('greetingController', ['$scope','$http', function ($scope,$http) {
+    $http({
+        method: 'GET',
+        url: 'http://secure.pm.com/api'
+    }).then(function successCallback(response) {
+        $scope.greeting = response.data.Result;
+    }, function errorCallback(response) {
+        $scope.greeting = "api is not accessible.";
+    });
 }]);
 app.controller('loginController', ['$scope', function ($scope) {
     $scope.message = 'login!';
@@ -42,8 +49,11 @@ app.controller('menuController', ['$scope', function ($scope) {
 }]);
 app.controller('signupController', ['$scope', function ($scope) {
     $scope.model = {};
+    $scope.isValid = false;
     $scope.submitForm = function () {
+        $scope.isValid = true;
         console.log('submit' + $scope.model);
+        
     }
 }]);
 app.directive('textArea', function () {
@@ -134,7 +144,6 @@ app.directive("compareTo", function () {
         link: function (scope, element, attributes, ngModel) {
 
             ngModel.$validators.compareTo = function (modelValue) {
-                //debugger; 
                 return modelValue == scope.otherModelValue.$viewValue;
             };
 
