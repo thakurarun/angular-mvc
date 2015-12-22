@@ -21,6 +21,8 @@ namespace com
                          , "~/Scripts/angular/angular-animate.js"
                          , "~/Scripts/angular/angular-cookies.js"
                          , "~/Scripts/angular/angular-route.js"
+                         , "~/Scripts/angular/angular-messages.js"
+                         , "~/Scripts/angular/angular-message-format.js"
                          );
 
             var applicationScriptBundle = new ScriptBundle("~/bundles/application").Include(

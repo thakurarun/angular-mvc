@@ -3,16 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <title>Sample</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     @Scripts.Render("~/Bundles/jquery")
 </head>
-<body ng-app="com">
-    <div class="container body-content">
+<body ng-app="com" class="body-content">
         @RenderBody()
-    </div>
-    
     @Scripts.Render("~/Bundles/angular")
     @Scripts.Render("~/Bundles/application")
 </body>

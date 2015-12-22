@@ -34,7 +34,7 @@
             message: '@',
             buttonText: '@'
         },
-        templateUrl: GetRoot() + 'CustomControls/TextAreaControl/templateTextArea.html',
+        templateUrl: RootClientUrl + 'CustomControls/TextAreaControl/templateTextArea.html',
         link: link
     };
 });

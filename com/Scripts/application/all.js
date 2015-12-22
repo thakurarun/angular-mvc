@@ -1,30 +1,50 @@
 'use strict'
-var app = angular.module('com', ['ngRoute']);
+var app = angular.module('com', ['ngRoute', 'ngMessages']);
 
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
       when('/', {
-          templateUrl: GetRoot() +  'Areas/Index/partials',
-          controller: 'GreetingController'
-      }).
-      when('/phones/:phoneId', {
-          templateUrl: 'partials/phone-detail.html',
-          controller: 'PhoneDetailCtrl'
-      }).
-      otherwise({
-          redirectTo: '/phones'
-      });
+          templateUrl: RootClientUrl + 'Areas/Greeting/partials/greeting.html',
+          controller: 'greetingController'
+      })
+        .when('/signup', {
+            templateUrl: RootClientUrl + 'Areas/SignUp/partials/signup.html',
+            controller: 'signupController'
+        })
+        .when('/login', {
+            templateUrl: RootClientUrl + 'Areas/Login/partials/login.html',
+            controller: 'loginController'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
 }]);
 
-var GetRoot = function () {
-  var rootPath = "./Client/";
-  return function GetRootPath() {
-    return rootPath;
-  }
-}();
- 
-app.controller('GreetingController', ['$scope', function ($scope) {
-    $scope.greeting = 'wallah!';
+
+app.controller('greetingController', ['$scope', function ($scope) {
+    $scope.greeting = 'Welcome please login/signup!';
+}]);
+app.controller('loginController', ['$scope', function ($scope) {
+    $scope.message = 'login!';
+
+    var login = {
+        "firstname": ""
+        , "firstname": ""
+        , "firstname": ""
+    }
+
+}]);
+app.controller('menuController', ['$scope', function ($scope) {
+    $scope.Menu = [
+          { name: "Sign up", link: "#signup" }
+        , { name: "Login", link: "#login" }
+    ]
+}]);
+app.controller('signupController', ['$scope', function ($scope) {
+    $scope.model = {};
+    $scope.submitForm = function () {
+        console.log('submit' + $scope.model);
+    }
 }]);
 app.directive('textArea', function () {
     var minMessage = '{0} more to go...';
@@ -62,7 +82,7 @@ app.directive('textArea', function () {
             message: '@',
             buttonText: '@'
         },
-        templateUrl: GetRoot() + 'CustomControls/TextAreaControl/templateTextArea.html',
+        templateUrl: RootClientUrl + 'CustomControls/TextAreaControl/templateTextArea.html',
         link: link
     };
 });
@@ -79,3 +99,7 @@ if (!String.prototype.format) {
         });
     };
 }
+var RootClientUrl = function () {
+    var rootPath = "./Client/";
+    return rootPath;
+}();
