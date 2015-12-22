@@ -11,7 +11,8 @@ namespace com.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            return View("~/Client/indexPage.cshtml");
         }
+        //E:\Code\angular-mvc\com\Client\indexPage.cshtml
     }
 }

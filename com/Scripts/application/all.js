@@ -1,30 +1,50 @@
 'use strict'
-var app = angular.module('com', ['ngRoute']);
+var app = angular.module('com', ['ngRoute', 'ngMessages']);
 
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
       when('/', {
-          templateUrl: GetRoot() +  'Areas/Index/partials',
-          controller: 'GreetingController'
-      }).
-      when('/phones/:phoneId', {
-          templateUrl: 'partials/phone-detail.html',
-          controller: 'PhoneDetailCtrl'
-      }).
-      otherwise({
-          redirectTo: '/phones'
-      });
+          templateUrl: RootClientUrl + 'Areas/Greeting/partials/greeting.html',
+          controller: 'greetingController'
+      })
+        .when('/signup', {
+            templateUrl: RootClientUrl + 'Areas/SignUp/partials/signup.html',
+            controller: 'signupController'
+        })
+        .when('/login', {
+            templateUrl: RootClientUrl + 'Areas/Login/partials/login.html',
+            controller: 'loginController'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
 }]);
 
-var GetRoot = function () {
-  var rootPath = "./Client/";
-  return function GetRootPath() {
-    return rootPath;
-  }
-}();
- 
-app.controller('GreetingController', ['$scope', function ($scope) {
-    $scope.greeting = 'wallah!';
+
+app.controller('greetingController', ['$scope', function ($scope) {
+    $scope.greeting = 'Welcome please login/signup!';
+}]);
+app.controller('loginController', ['$scope', function ($scope) {
+    $scope.message = 'login!';
+
+    var login = {
+        "firstname": ""
+        , "firstname": ""
+        , "firstname": ""
+    }
+
+}]);
+app.controller('menuController', ['$scope', function ($scope) {
+    $scope.Menu = [
+          { name: "Sign up", link: "#signup" }
+        , { name: "Login", link: "#login" }
+    ]
+}]);
+app.controller('signupController', ['$scope', function ($scope) {
+    $scope.model = {};
+    $scope.submitForm = function () {
+        console.log('submit' + $scope.model);
+    }
 }]);
 app.directive('textArea', function () {
     var minMessage = '{0} more to go...';
@@ -56,17 +76,74 @@ app.directive('textArea', function () {
     }
     return {
         restrict: 'E',
+        replace: true,
         scope: {
             max: '@',
             min: '@',
             message: '@',
             buttonText: '@'
         },
-        templateUrl: GetRoot() + 'CustomControls/TextAreaControl/templateTextArea.html',
+        templateUrl: RootClientUrl + 'CustomControls/TextAreaControl/templateTextArea.html',
         link: link
     };
 });
 
+app.directive('textBox', function () {
+    var minMessage = '{0} more to go...';
+    var maxMessage = '{0} characters left.';
+    var defaultMessage = 'enter at least {0} characters';;
+    function link(scope, element, attrs) {
+        scope.message = defaultMessage.format(scope.min);
+        element.on('keyup',  function (e) {
+            var len = $.trim(e.target.value).length;
+            var msg = '';
+            var left = 0;
+            if (len == 0) {
+                msg = defaultMessage.format(scope.min);
+            } else if (len >= scope.min) {
+                left = scope.max - len;
+                msg = maxMessage.format(left);;
+            } else if (len < scope.min) {
+                left = scope.min - len;
+                msg = minMessage.format(left);
+            }
+            scope.$apply(function () {
+                scope.message = msg;
+            });
+        });
+    }
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            max: '@',
+            min: '@',
+            message: '@'
+        },
+        templateUrl: RootClientUrl + 'CustomControls/TextBoxControl/templateTextBox.html',
+        link: link
+    };
+});
+
+app.directive("compareTo", function () {
+    return {
+        require: "ngModel",
+        scope: {
+            otherModelValue: "=compareTo"
+        },
+        link: function (scope, element, attributes, ngModel) {
+
+            ngModel.$validators.compareTo = function (modelValue) {
+                //debugger; 
+                return modelValue == scope.otherModelValue.$viewValue;
+            };
+
+            scope.$watch("otherModelValue", function () {
+                ngModel.$validate();
+            });
+        }
+    };
+});
 // First, checks if it isn't implemented yet.
 if (!String.prototype.format) {
     String.prototype.format = function () {
@@ -79,3 +156,7 @@ if (!String.prototype.format) {
         });
     };
 }
+var RootClientUrl = function () {
+    var rootPath = "./Client/";
+    return rootPath;
+}();

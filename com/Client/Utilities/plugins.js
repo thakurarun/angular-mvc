@@ -10,3 +10,7 @@ if (!String.prototype.format) {
         });
     };
 }
+var RootClientUrl = function () {
+    var rootPath = "./Client/";
+    return rootPath;
+}();
